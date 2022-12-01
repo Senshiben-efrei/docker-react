@@ -6,4 +6,16 @@ before_install:
   - docker build -t senshiben/docker-react -f Dockerfile.dev .
 
 script:
-  -   docker run -e CI=true senshiben/docker-react npm run test
+  - docker run -e CI=true senshiben/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-3"
+  app: "docker_react"
+  env: "Dockerreact-env"
+  bucket_name: "elasticbeanstalk-eu-west-3-015801382972"
+  bucket_path: "docker_react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"
